@@ -18,11 +18,11 @@ use std::{collections::HashMap, convert::TryFrom, marker::PhantomData, str::From
 
 use codec::{Decode, Encode};
 
-use log::*;
-use metadata::{
+use frame_metadata::{
     DecodeDifferent, RuntimeMetadata, RuntimeMetadataPrefixed, StorageEntryModifier,
     StorageEntryType, StorageHasher, META_RESERVED,
 };
+use log::*;
 use serde::ser::Serialize;
 use sp_core::storage::StorageKey;
 
@@ -592,7 +592,9 @@ fn convert<B: 'static, O: 'static>(dd: DecodeDifferent<B, O>) -> Result<O, Conve
     }
 }
 
-fn convert_event(event: metadata::EventMetadata) -> Result<ModuleEventMetadata, ConversionError> {
+fn convert_event(
+    event: frame_metadata::EventMetadata,
+) -> Result<ModuleEventMetadata, ConversionError> {
     let name = convert(event.name)?;
     let mut arguments = Vec::new();
     for arg in convert(event.arguments)? {
@@ -605,7 +607,7 @@ fn convert_event(event: metadata::EventMetadata) -> Result<ModuleEventMetadata, 
 fn convert_entry(
     module_prefix: String,
     storage_prefix: String,
-    entry: metadata::StorageEntryMetadata,
+    entry: frame_metadata::StorageEntryMetadata,
 ) -> Result<StorageMetadata, ConversionError> {
     let default = convert(entry.default)?;
     Ok(StorageMetadata {

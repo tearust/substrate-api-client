@@ -21,9 +21,9 @@ use std::{
 };
 
 use codec::{Codec, Compact, Decode, Encode, Error as CodecError, Input, Output};
+use frame_support::weights::DispatchInfo;
+use frame_system::Phase;
 use sp_runtime::DispatchError;
-use support::weights::DispatchInfo;
-use system::Phase;
 
 use crate::node_metadata::{EventArg, Metadata, MetadataError};
 
