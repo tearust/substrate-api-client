@@ -20,6 +20,7 @@ use clap::{load_yaml, App};
 
 use camellia_runtime::{BalancesCall, Call, Header};
 use sp_core::crypto::Pair;
+use sp_core::{Decode, Encode};
 use sp_keyring::AccountKeyring;
 use sp_runtime::MultiAddress;
 
@@ -46,11 +47,15 @@ fn main() {
     // define the recipient
     let to = MultiAddress::Id(AccountKeyring::Bob.to_account_id());
 
+    let call = Call::Balances(BalancesCall::transfer(to.clone(), 42));
+    let encoded_data: sp_std::vec::Vec<u8> = call.encode();
+    let decoded_call = Call::decode(&mut &encoded_data[..]).unwrap();
+
     // compose the extrinsic with all the element
     #[allow(clippy::redundant_clone)]
     let xt: UncheckedExtrinsicV4<_> = compose_extrinsic_offline!(
         api.clone().signer.unwrap(),
-        Call::Balances(BalancesCall::transfer(to.clone(), 42)),
+        decoded_call,
         api.get_nonce().unwrap(),
         Era::mortal(period, h.number.into()),
         api.genesis_hash,
