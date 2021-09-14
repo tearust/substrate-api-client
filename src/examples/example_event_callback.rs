@@ -25,7 +25,7 @@ use sp_core::H256 as Hash;
 // This module depends on node_runtime.
 // To avoid dependency collisions, node_runtime has been removed from the substrate-api-client library.
 // Replace this crate by your own if you run a custom substrate node to get your custom events.
-use node_template_runtime::Event;
+use camellia_runtime::Event;
 
 use substrate_api_client::utils::FromHexString;
 use substrate_api_client::Api;
@@ -45,7 +45,7 @@ fn main() {
 
         let _unhex = Vec::from_hex(event_str).unwrap();
         let mut _er_enc = _unhex.as_slice();
-        let _events = Vec::<system::EventRecord<Event, Hash>>::decode(&mut _er_enc);
+        let _events = Vec::<frame_system::EventRecord<Event, Hash>>::decode(&mut _er_enc);
         match _events {
             Ok(evts) => {
                 for evr in &evts {
@@ -54,7 +54,7 @@ fn main() {
                         Event::pallet_balances(be) => {
                             println!(">>>>>>>>>> balances event: {:?}", be);
                             match &be {
-                                balances::Event::Transfer(transactor, dest, value) => {
+                                pallet_balances::Event::Transfer(transactor, dest, value) => {
                                     println!("Transactor: {:?}", transactor);
                                     println!("Destination: {:?}", dest);
                                     println!("Value: {:?}", value);
