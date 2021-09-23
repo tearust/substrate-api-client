@@ -18,8 +18,8 @@
 
 use clap::{load_yaml, App};
 
+use camellia_runtime::{BalancesCall, Call, Header};
 use keyring::AccountKeyring;
-use node_template_runtime::{BalancesCall, Call, Header};
 use sp_core::crypto::Pair;
 use sp_runtime::MultiAddress;
 
