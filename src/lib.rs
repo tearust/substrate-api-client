@@ -15,7 +15,6 @@
 
 */
 #![cfg_attr(not(feature = "std"), no_std)]
-#![feature(assert_matches)]
 
 #[cfg(feature = "std")]
 pub mod std;
