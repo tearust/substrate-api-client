@@ -159,6 +159,22 @@ where
         })
     }
 
+    pub fn new_offline(
+        client: Client,
+        genesis_hash: Hash,
+        metadata: Metadata,
+        runtime_version: RuntimeVersion,
+    ) -> Self {
+        Self {
+            signer: None,
+            genesis_hash,
+            metadata,
+            runtime_version,
+            client,
+            extrinsic_params_builder: None,
+        }
+    }
+
     #[must_use]
     pub fn set_signer(mut self, signer: P) -> Self {
         self.signer = Some(signer);
